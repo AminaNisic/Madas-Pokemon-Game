@@ -19,7 +19,7 @@ playerImage.src='./images/PlayerDown.png'
   //and height the usual
 
 //}
-animate()
+//animate()
 /*image.onload=()=>{
 context.drawImage(image,-2580,-1100)
 }*/
@@ -44,13 +44,13 @@ const background = new Sprite({
   image: image
 })
 
-
 function animate() {
   window.requestAnimationFrame(animate)
-  image.onload=()=>{
+
+  //image.onload=()=>{
   background.draw()
-}
-  playerImage.onload=()=>{
+  //}
+  //playerImage.onload=()=>{
   context.drawImage(
     playerImage,
     0,
@@ -62,13 +62,9 @@ function animate() {
     playerImage.width/4,
     playerImage.height
   )
+//}
 }
-}
-
-
-
-
-
+animate()
 window.addEventListener('keydown',(e)=>{
   switch(e.key) {
     case 'w':
