@@ -1,8 +1,9 @@
+//1:52:29
 const canvas = document.querySelector('canvas')
 const context=canvas.getContext('2d')
 
-canvas.width= 1024;
-canvas.height = 576;
+canvas.width= 1024;//1005
+canvas.height = 750;//470
 
 context.fillStyle='#f8a6ff';
 context.fillRect(0,0, canvas.width, canvas.height);
@@ -31,18 +32,34 @@ class Sprite {
   }
 
   draw() {
-    context.drawImage(this.image,-2580,-1100)
+    context.drawImage(this.image,this.position.x,this.position.y)
   }
 
 }
 
 const background = new Sprite({
   position: {
-    x: -2580,
+    x: -2590,
     y: -1100
   },
   image: image
 })
+
+
+const keys={
+  w:{
+    pressed: false
+  },
+  a:{
+    pressed: false
+  },
+  s:{
+    pressed: false
+  },
+  d:{
+    pressed: false
+  }
+}
 
 function animate() {
   window.requestAnimationFrame(animate)
@@ -63,21 +80,43 @@ function animate() {
     playerImage.height
   )
 //}
+if(keys.w.pressed) background.position.y+=3
+else if(keys.s.pressed) background.position.y-=3
+else if(keys.a.pressed) background.position.x+=3
+else if(keys.d.pressed) background.position.x-=3
 }
 animate()
+
 window.addEventListener('keydown',(e)=>{
   switch(e.key) {
     case 'w':
-    console.log('w')
+    keys.w.pressed =true
     break
     case 'a':
-    console.log('a')
+    keys.a.pressed =true
     break
     case 's':
-    console.log('s')
+    keys.s.pressed =true
     break
     case 'd':
-    console.log('d')
+    keys.d.pressed =true
+    break
+  }
+})
+
+window.addEventListener('keyup',(e)=>{
+  switch(e.key) {
+    case 'w':
+    keys.w.pressed =false
+    break
+    case 'a':
+    keys.a.pressed =false
+    break
+    case 's':
+    keys.s.pressed =false
+    break
+    case 'd':
+    keys.d.pressed =false
     break
   }
 })
