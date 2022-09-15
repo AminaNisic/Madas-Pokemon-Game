@@ -1,4 +1,3 @@
-//1:52:29
 
 const canvas = document.querySelector('canvas')
 const context=canvas.getContext('2d')
@@ -6,13 +5,13 @@ const context=canvas.getContext('2d')
 canvas.width= 1005;//1005
 canvas.height = 470;//470
 
-const collisionsObject=[]
+const collisionsMap=[]
 
 for (let i =0; i<collisions.length; i+=140){
-  collisionsObject.push(collisions.slice(i,i+140))
+  collisionsMap.push(collisions.slice(i,i+140))
 }
 
-class Border{
+class Boundary{
   static width=60
   static height=60
   constructor({position}){
@@ -26,21 +25,27 @@ class Border{
   }
 }
 
-const borders = []
+const boundaries = []
 
-collisionsObject.forEach((row, i)=>{
-  row.forEach((symbol, j)=>{
-    if (symbol===1784){
-      borders.push(new Border({position: {
-        x: j * Border.width,
-        y: i * Border.height
+const offset = {
+  x: -2590,
+  y: -1150
+}
+
+collisionsMap.forEach((row, i) => {
+  row.forEach((symbol, j) => {
+    if (symbol === 1784)
+      boundaries.push(
+        new Boundary({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y
           }
         })
-      }
-    )
+      )
   })
 })
-console.log(borders)
+
 
 const image= new Image();
 image.src='./images/MadasMap.png'
@@ -71,8 +76,8 @@ class Sprite {
 
 const background = new Sprite({
   position: {
-    x: -2590,
-    y: -1100
+    x: offset.x,
+    y: offset.y
   },
   image: image
 })
@@ -96,6 +101,10 @@ function animate() {
   window.requestAnimationFrame(animate)
   //image.onload=()=>{
   background.draw()
+  boundaries.forEach(boundary => {
+    boundary.draw()
+  });
+
   //}
   //playerImage.onload=()=>{
   context.drawImage(
