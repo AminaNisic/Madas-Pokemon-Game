@@ -11,19 +11,7 @@ for (let i =0; i<collisions.length; i+=140){
   collisionsMap.push(collisions.slice(i,i+140))
 }
 
-class Boundary{
-  static width=60
-  static height=60
-  constructor({position}){
-    this.position=position
-    this.width=60
-    this.height=60
-  }
-  draw(){
-    context.fillStyle='rgba(255,0,0,0)'
-    context.fillRect(this.position.x, this.position.y, this.width, this.height)
-  }
-}
+
 
 const boundaries = []
 
@@ -50,6 +38,9 @@ collisionsMap.forEach((row, i) => {
 const image= new Image();
 image.src='./images/MadasMap.png'
 
+const foregroundImg = new Image();
+foregroundImg.src='./images/foreground1.png'
+
 const playerImage = new Image();
 playerImage.src='./images/PlayerDown.png'
 
@@ -64,32 +55,7 @@ playerImage.src='./images/PlayerDown.png'
 context.drawImage(image,-2580,-1100)
 }*/
 
-class Sprite {
-  constructor({ position, velocity, image, frames = {max : 1}}) {
-    this.position = position
-    this.image = image
-    this.frames = frames
 
-    this.image.onload = () =>{
-      this.width = this.image.width / this.frames.max
-      this.height = this.image.height
-    }
-
-  }
-  draw() {
-    context.drawImage(
-      this.image,
-      0,
-      0,
-      this.image.width / this.frames.max,
-      this.image.height,
-      this.position.x,
-      this.position.y,
-      this.image.width / this.frames.max,
-      this.image.height
-    )
-  }
-}
 
 //canvas.width / 2 - this.image.width / 4 / 2,
 //canvas.height / 2 - this.image.height / 2,
@@ -111,6 +77,14 @@ const background = new Sprite({
     y: offset.y
   },
   image: image
+})
+
+const foreground = new Sprite({
+  position: {
+    x: offset.x,
+    y: offset.y
+  },
+  image: foregroundImg
 })
 
 const keys={
@@ -135,7 +109,7 @@ const keys={
   }
 })*/
 
-const movables=[background, ...boundaries] //,testBoundary
+const movables=[background, ...boundaries, foreground] //,testBoundary
 
 function rectangularCollision({rectangle1, rectangle2}){
   return (
@@ -155,6 +129,7 @@ function animate() {
     boundary.draw()
   });
   player.draw()
+  foreground.draw()
   //}
   //playerImage.onload=()=>{
   //////////
@@ -181,7 +156,7 @@ function animate() {
     }
     if(moving)
     movables.forEach(movable =>{
-      movable.position.y+=3
+      movable.position.y+=2
     })
   }
   //  movables.forEach(movable =>{
@@ -194,7 +169,7 @@ function animate() {
         //rectangle2: testBoundary
         rectangle2: {...boundary, position: {
           x:boundary.position.x,
-          y: boundary.position.y-3
+          y: boundary.position.y-2
         } }
       })
        ){
@@ -205,7 +180,7 @@ function animate() {
     }
     if(moving)
     movables.forEach(movable =>{
-    movable.position.y-=3
+    movable.position.y-=2
   })
   }
 
@@ -216,7 +191,7 @@ function animate() {
         rectangle1: player,
         //rectangle2: testBoundary
         rectangle2: {...boundary, position: {
-          x:boundary.position.x+3,
+          x:boundary.position.x+2,
           y: boundary.position.y
         } }
       })
