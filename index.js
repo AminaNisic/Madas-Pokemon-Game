@@ -41,8 +41,17 @@ image.src='./images/MadasMap.png'
 const foregroundImg = new Image();
 foregroundImg.src='./images/foreground1.png'
 
-const playerImage = new Image();
-playerImage.src='./images/PlayerDown.png'
+const playerDownImage = new Image();
+playerDownImage.src='./images/PlayerDown.png'
+
+const playerUpImage = new Image();
+playerUpImage.src='./images/PlayerUp.png'
+
+const playerLeftImage = new Image();
+playerLeftImage.src='./images/PlayerLeft.png'
+
+const playerRightImage = new Image();
+playerRightImage.src='./images/PlayerRight.png'
 
 //playerImage.onload=()=>{
   //while img isnt loaded
@@ -65,9 +74,15 @@ const player = new Sprite({
     x:canvas.width / 2 - 192 / 4 / 2,
     y:canvas.height / 2 - 68 / 2
   },
-  image: playerImage,
+  image: playerDownImage,
   frames: {
     max: 4
+  },
+  sprites: {
+    up: playerUpImage,
+    left: playerLeftImage,
+    right: playerRightImage,
+    down: playerDownImage
   }
 })
 
@@ -137,8 +152,10 @@ function animate() {
 
 
   let moving = true
+  player.moving=false
   if(keys.w.pressed && lastKey==='w') {
     player.moving=true
+    player.image = player.sprites.up
     for(let i = 0; i < boundaries.length; i++){
       const boundary = boundaries [i]
       if(rectangularCollision({
@@ -163,6 +180,8 @@ function animate() {
   //  movables.forEach(movable =>{
     //movable.position.y-=3}
   else if(keys.s.pressed && lastKey==='s') {
+    player.moving=true
+    player.image=player.sprites.down
     for(let i = 0; i < boundaries.length; i++){
       const boundary = boundaries [i]
       if(rectangularCollision({
@@ -186,6 +205,8 @@ function animate() {
   }
 
   else if(keys.a.pressed && lastKey==='a'){
+    player.moving=true
+    player.image=player.sprites.left
     for(let i = 0; i < boundaries.length; i++){
       const boundary = boundaries [i]
       if(rectangularCollision({
@@ -208,6 +229,8 @@ function animate() {
   })
 }
   else if(keys.d.pressed && lastKey==='d') {
+    player.moving=true
+    player.image=player.sprites.right
     for(let i = 0; i < boundaries.length; i++){
       const boundary = boundaries [i]
       if(rectangularCollision({
