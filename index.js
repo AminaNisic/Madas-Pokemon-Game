@@ -11,7 +11,12 @@ for (let i =0; i<collisions.length; i+=140){
   collisionsMap.push(collisions.slice(i,i+140))
 }
 
+const battlezonesMap=[]
 
+for (let i =0; i<battlezonesData.length; i+=140){
+  battlezonesMap.push(battlezonesData.slice(i,i+140))
+}
+console.log(battlezonesMap)
 
 const boundaries = []
 
@@ -34,6 +39,23 @@ collisionsMap.forEach((row, i) => {
   })
 })
 
+const battlezones = []
+
+battlezonesMap.forEach((row, i) => {
+  row.forEach((symbol, j) => {
+    if (symbol === 1784)
+      battlezones.push(
+        new Boundary({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y
+          }
+        })
+      )
+  })
+})
+
+console.log(battlezones)
 
 const image= new Image();
 image.src='./images/MadasMap.png'
@@ -124,7 +146,7 @@ const keys={
   }
 })*/
 
-const movables=[background, ...boundaries, foreground] //,testBoundary
+const movables=[background, ...boundaries, foreground, ...battlezones] //,testBoundary
 
 function rectangularCollision({rectangle1, rectangle2}){
   return (
@@ -140,9 +162,14 @@ function animate() {
   //image.onload=()=>{
   background.draw()
   //testBoundary.draw()
+  battlezones.forEach(battlezone => {
+    battlezone.draw()
+  });
+
   boundaries.forEach(boundary => {
     boundary.draw()
   });
+
   player.draw()
   foreground.draw()
   //}
