@@ -177,6 +177,33 @@ function animate() {
   //////////
 //}
 
+if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
+  for(let i = 0; i < battlezones.length; i++){
+    const battlezone = battlezones [i]
+    //overlapping area so that the battle doesnt activate immediately but rather when the player walks way into the battle patch
+    const overlappingArea =
+    (Math.min(player.position.x + player.width , battlezone.position.x + battlezone.width
+    ) -
+    Math.max(player.position.x, battlezone.position.x)) *
+    (Math.min(
+      player.position.y + player.height,
+     battlezone.position.y + battlezone.height
+   ) -
+    Math.max(player.position.y, battlezone.position.y))
+
+    if(rectangularCollision({
+      rectangle1: player,
+      //rectangle2: testBoundary
+      rectangle2: battlezone
+    })
+    &&
+      overlappingArea > (player.width*player.height)/2
+     ){
+      console.log('colliding battlezone')
+      break
+     }
+  }
+}
 
   let moving = true
   player.moving=false
