@@ -164,7 +164,7 @@ const battle = {
 }
 
 function animate() {
-  window.requestAnimationFrame(animate)
+  const animationId= window.requestAnimationFrame(animate)
   //image.onload=()=>{
   background.draw()
   //testBoundary.draw()
@@ -185,6 +185,7 @@ function animate() {
 let moving = true
 player.moving=false
 
+console.log(animationId)
 if (battle.initiated) return
 
 //activating a battle code
@@ -213,6 +214,7 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
      )
      {
       console.log('battle activate')
+      window.cancelAnimationFrame(animationId) //canceling old animation to start animation for battle sequence
       battle.initiated = true
       gsap.to('#transition', {
         opacity: 1,
@@ -222,8 +224,17 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
         onComplete() {
           gsap.to('#transition', {
             opacity: 1,
-            duration: 0.3
+            duration: 0.3,
+            onComplete(){
+              //activate new animation loop for battle sequence
+              animateBattle()
+              gsap.to('#transition', {
+                opacity: 0,
+                duration: 0.7
+              })
+            }
           })
+
         }
       })
       break
@@ -334,6 +345,21 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
 
 animate()
 
+const battleBackgroundImg= new Image()
+battleBackgroundImg.src='./images/battleBackground.png'
+
+const battleBackground = new Sprite({
+  position:{
+    x:0,
+    y:0
+  },
+  image: battleBackgroundImg
+})
+function animateBattle() {
+  window.requestAnimationFrame(animateBattle)
+
+  battleBackground.draw()
+}
 
 let lastKey=''
 
