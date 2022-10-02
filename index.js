@@ -2,6 +2,8 @@
 const canvas = document.querySelector('canvas')
 const context=canvas.getContext('2d')
 
+
+
 canvas.width= 1005;//1005
 canvas.height = 470;//470
 
@@ -157,6 +159,10 @@ function rectangularCollision({rectangle1, rectangle2}){
   )
 }
 
+const battle = {
+  initiated: false
+}
+
 function animate() {
   window.requestAnimationFrame(animate)
   //image.onload=()=>{
@@ -176,7 +182,12 @@ function animate() {
   //playerImage.onload=()=>{
   //////////
 //}
+let moving = true
+player.moving=false
 
+if (battle.initiated) return
+
+//activating a battle code
 if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
   for(let i = 0; i < battlezones.length; i++){
     const battlezone = battlezones [i]
@@ -198,15 +209,28 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
     })
     &&
       overlappingArea > (player.width*player.height)/2
-     ){
-      console.log('colliding battlezone')
+      && Math.random() < 0.01 //added random so that a battle does not occur on every single frame
+     )
+     {
+      console.log('battle activate')
+      battle.initiated = true
+      gsap.to('#transition', {
+        opacity: 1,
+        repeat: 5,
+        yoyo: true,
+        duration: 0.3,
+        onComplete() {
+          gsap.to('#transition', {
+            opacity: 1,
+            duration: 0.3
+          })
+        }
+      })
       break
      }
   }
 }
 
-  let moving = true
-  player.moving=false
   if(keys.w.pressed && lastKey==='w') {
     player.moving=true
     player.image = player.sprites.up
