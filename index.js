@@ -18,7 +18,7 @@ const battlezonesMap=[]
 for (let i =0; i<battlezonesData.length; i+=140){
   battlezonesMap.push(battlezonesData.slice(i,i+140))
 }
-console.log(battlezonesMap)
+//console.log(battlezonesMap)
 
 const boundaries = []
 
@@ -57,7 +57,7 @@ battlezonesMap.forEach((row, i) => {
   })
 })
 
-console.log(battlezones)
+//console.log(battlezones)
 
 const image= new Image();
 image.src='./images/MadasMap.png'
@@ -100,7 +100,8 @@ const player = new Sprite({
   },
   image: playerDownImage,
   frames: {
-    max: 4
+    max: 4,
+    hold: 15
   },
   sprites: {
     up: playerUpImage,
@@ -183,9 +184,9 @@ function animate() {
   //////////
 //}
 let moving = true
-player.moving=false
+player.animate=false
 
-console.log(animationId)
+//console.log(animationId)
 if (battle.initiated) return
 
 //activating a battle code
@@ -213,7 +214,7 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
       && Math.random() < 0.01 //added random so that a battle does not occur on every single frame
      )
      {
-      console.log('battle activate')
+      //console.log('battle activate')
       window.cancelAnimationFrame(animationId) //canceling old animation to start animation for battle sequence
       battle.initiated = true
       gsap.to('#transition', {
@@ -243,7 +244,7 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
 }
 
   if(keys.w.pressed && lastKey==='w') {
-    player.moving=true
+    player.animate=true
     player.image = player.sprites.up
     for(let i = 0; i < boundaries.length; i++){
       const boundary = boundaries [i]
@@ -256,7 +257,7 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
         } }
       })
        ){
-        console.log('colliding')
+        //console.log('colliding')
         moving = false
         break
        }
@@ -269,7 +270,7 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
   //  movables.forEach(movable =>{
     //movable.position.y-=3}
   else if(keys.s.pressed && lastKey==='s') {
-    player.moving=true
+    player.animate=true
     player.image=player.sprites.down
     for(let i = 0; i < boundaries.length; i++){
       const boundary = boundaries [i]
@@ -282,7 +283,7 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
         } }
       })
        ){
-        console.log('colliding')
+        //console.log('colliding')
         moving = false
         break
        }
@@ -294,7 +295,7 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
   }
 
   else if(keys.a.pressed && lastKey==='a'){
-    player.moving=true
+    player.animate=true
     player.image=player.sprites.left
     for(let i = 0; i < boundaries.length; i++){
       const boundary = boundaries [i]
@@ -307,7 +308,7 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
         } }
       })
        ){
-        console.log('colliding')
+        //console.log('colliding')
         moving = false
         break
        }
@@ -318,7 +319,7 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
   })
 }
   else if(keys.d.pressed && lastKey==='d') {
-    player.moving=true
+    player.animate=true
     player.image=player.sprites.right
     for(let i = 0; i < boundaries.length; i++){
       const boundary = boundaries [i]
@@ -331,7 +332,7 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
         } }
       })
        ){
-        console.log('colliding')
+        //console.log('colliding')
         moving = false
         break
        }
@@ -347,7 +348,6 @@ animate()
 
 const battleBackgroundImg= new Image()
 battleBackgroundImg.src='./images/battleBackground.png'
-
 const battleBackground = new Sprite({
   position:{
     x:0,
@@ -355,11 +355,49 @@ const battleBackground = new Sprite({
   },
   image: battleBackgroundImg
 })
+
+const draggleImg= new Image()
+draggleImg.src='./images/draggleSprite.png'
+const draggle = new Sprite({
+  //here the position should remain the same but once I add new Pokemon from the madas region it will
+  //select a random one from an array of images with sprites and frames and use that animation
+  //draggle is placeholder monster
+  position: {
+    x: 750,
+    y: 100
+  },
+  image: draggleImg,
+  frames: {
+    max: 4,
+    hold : 60
+  },
+  animate : true
+})
+
+const embyImg= new Image()
+embyImg.src='./images/embySprite.png'
+const emby = new Sprite({
+  //player's pokemon will also be changeable eventually
+  position: {
+    x: 300,
+    y: 330
+  },
+  image: embyImg,
+  frames: {
+    max: 4,
+    hold : 40
+  },
+  animate : true
+})
+
 function animateBattle() {
   window.requestAnimationFrame(animateBattle)
 
   battleBackground.draw()
+  draggle.draw()
+  emby.draw()
 }
+//animateBattle()
 
 let lastKey=''
 
