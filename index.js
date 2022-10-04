@@ -344,14 +344,14 @@ if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
 }
 }
 
-animate()
+//animate()
 
 const battleBackgroundImg= new Image()
 battleBackgroundImg.src='./images/battleBackground.png'
 const battleBackground = new Sprite({
   position:{
     x:0,
-    y:0
+    y:-50
   },
   image: battleBackgroundImg
 })
@@ -363,8 +363,8 @@ const draggle = new Sprite({
   //select a random one from an array of images with sprites and frames and use that animation
   //draggle is placeholder monster
   position: {
-    x: 750,
-    y: 100
+    x: 770,
+    y: 50
   },
   image: draggleImg,
   frames: {
@@ -380,7 +380,7 @@ const emby = new Sprite({
   //player's pokemon will also be changeable eventually
   position: {
     x: 300,
-    y: 330
+    y: 270
   },
   image: embyImg,
   frames: {
@@ -397,7 +397,7 @@ function animateBattle() {
   draggle.draw()
   emby.draw()
 }
-//animateBattle()
+animateBattle()
 
 let lastKey=''
 
