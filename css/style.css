@@ -2,7 +2,12 @@ body {
   background-color: black;
 }
 
-
+* {
+    font-family: 'Silkscreen', cursive;
+}
+button{
+  font-size: 32px;
+}
 #canvas{
     position:fixed;
     left:0px;
@@ -35,6 +40,7 @@ body {
 
 button {
   border: 0;
+  cursor: pointer;
 }
 button:hover{
   background-color: gainsboro;
@@ -52,4 +58,49 @@ button:hover{
   justify-content: center;
   width: 30%;
   border-left: 4px black solid;
+}
+
+#healthbar{
+  background-color: white;
+  position: absolute;
+  width: 500px;
+  border: 4px black solid;
+  top: 100px;
+  left: 100px;
+  padding: 15px;
+
+}
+
+#healthbar2{
+  background-color: white;
+  position: absolute;
+  width: 500px;
+  border: 4px black solid;
+  bottom: 300px;
+  right: 100px;
+  padding: 15px;
+
+}
+
+#wrapper{
+  position: relative;
+  bottom: 25px;
+}
+
+#bar-full{
+  position: absolute;
+  height: 10px;
+  width: 100%;
+  background-color: green;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#bar-empty{
+  position: absolute;
+  height: 10px;
+  width: 480px;
+  background-color: red;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
