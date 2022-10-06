@@ -87,7 +87,16 @@ button:hover{
   bottom: 25px;
 }
 
-#bar-full{
+#enemy-full{
+  position: absolute;
+  height: 10px;
+  width: 100%;
+  background-color: green;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#player-full{
   position: absolute;
   height: 10px;
   width: 100%;

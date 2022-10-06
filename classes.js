@@ -10,9 +10,14 @@ class Sprite {
     }
     this.animate = animate
     this.sprites = sprites
+    this.opacity = 1
+    this.health = 100 //passed as argument later on since diff enemies will have different health but for the sake of building
+    //the skeleton of the game the 100 remains
 
   }
   draw() {
+    context.save()
+    context.globalAlpha = this.opacity
     context.drawImage(
       this.image,
       this.frames.val * this.width,
@@ -24,21 +29,49 @@ class Sprite {
       this.image.width / this.frames.max,
       this.image.height
     )
+    context.restore()
+
     if(!this.animate) return
 
     if (this.frames.max > 1) {
       this.frames.elapsed++
     }
+
     if (this.frames.elapsed %this.frames.hold === 0){
-
-    if (this.frames.val < this.frames.max - 1){
-      this.frames.val++
+      if (this.frames.val < this.frames.max - 1) this.frames.val++
+      else this.frames.val=0
     }
-    else {
-      this.frames.val=0
-        }
-      }
+  }
 
+  attack({attack, recipient}){
+    const tl = gsap.timeline()
+    tl.to(this.position, {
+      x: this.position.x - 20
+    }).to(this.position, {
+      x: this.position.x + 40,
+      duration: 0.1,
+      onComplete: () => {
+        //Enemy hit so animating health bar here
+        gsap.to('#enemy-full', {
+          width: this.health - attack.damage + '%'
+        })
+        gsap.to(recipient.position, {
+          x: recipient.position.x + 10,
+          yoyo: true,
+          repeat: 5,
+          duration: 0.1
+        })
+
+        gsap.to(recipient, {
+          opacity: 0,
+          yoyo: true,
+          repeat: 5,
+          duration: 0.1
+        })
+      }
+    }).to(this.position, {
+      x: this.position.x
+    })
   }
 }
 
