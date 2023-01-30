@@ -1,5 +1,5 @@
 class Sprite {
-  constructor({ position, velocity, image, frames = {max : 1, hold: 10}, sprites, animate = false}) {
+  constructor({ position, velocity, image, frames = {max : 1, hold: 10}, sprites, animate = false, isEnemy= false}) {
     this.position = position
     this.image = image
     this.frames = {...frames, val: 0, elapsed: 0 }
@@ -13,6 +13,7 @@ class Sprite {
     this.opacity = 1
     this.health = 100 //passed as argument later on since diff enemies will have different health but for the sake of building
     //the skeleton of the game the 100 remains
+    this.isEnemy
 
   }
   draw() {
@@ -45,10 +46,14 @@ class Sprite {
 
   attack({attack, recipient}){
     const tl = gsap.timeline()
+
+    let movementDistance = 20
+    if (this.isEnemy) movementDistance = 20
+
     tl.to(this.position, {
-      x: this.position.x - 20
+      x: this.position.x - movementDistance
     }).to(this.position, {
-      x: this.position.x + 40,
+      x: this.position.x + movementDistance * 2,
       duration: 0.1,
       onComplete: () => {
         //Enemy hit so animating health bar here
